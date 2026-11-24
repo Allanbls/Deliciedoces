@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deliciê Doces · Catálogo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=League+Gothic&family=Instrument+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* VOICE: confeitaria de bairro com capricho de ateliê, mesma linguagem do site de referência (Ganache)
+   IDEA: toldo listrado de confeitaria + comanda de pedido: o carrinho é a comanda
+   PICTURE: fotos reais da Luciana em cartão creme com borda festonada sobre listras framboesa
+   COLOUR: framboesa #b83a52 / vinho #8e2840, creme #f8f1e9, bege #e6d6bc, cacau #2e1a16
+   TYPE: Bagel Fat One (marca e nomes), League Gothic (títulos), Instrument Sans (texto), DM Mono (etiquetas) */
+:root{--bg:#f8f1e9;--card:#fdf9f4;--ink:#2e1a16;--soft:#6e5a52;--rasp:#b83a52;--wine:#8e2840;--beige:#e6d6bc;--sand:#efd9a0;--dark:#1f1310;--line:#e2d5c6}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Instrument Sans",system-ui,sans-serif;overflow-x:clip}
+img{display:block;max-width:100%}
+button,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--rasp);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:max(5vw,18px)}
+.h{font-family:"League Gothic",Impact,sans-serif;font-weight:400;text-transform:uppercase;line-height:.95;letter-spacing:.005em;font-size:clamp(46px,11vw,96px);margin:0;text-wrap:balance}
+.h em{font-style:normal;color:var(--rasp)}
+.bag{font-family:"Bagel Fat One",system-ui,sans-serif;font-weight:400;letter-spacing:-.01em}
+.mono{font-family:"DM Mono",ui-monospace,monospace}
+.pill{display:inline-block;background:var(--rasp);color:#fff;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.02em;padding:6px 14px;border-radius:999px;transform:rotate(-3deg);margin-bottom:14px}
+.lead{color:var(--soft);font-size:17px;max-width:36em;margin:14px 0 0}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:50px;padding:0 24px;border-radius:999px;font-weight:700;text-transform:uppercase;font-size:15px;letter-spacing:.01em;text-decoration:none;border:1.5px solid var(--ink);background:none;transition:transform .2s}
+.btn:active{transform:scale(.97)}
+.btn.fill{background:var(--rasp);border-color:var(--rasp);color:#fff}
+.btn .ar{color:var(--rasp)}.btn.fill .ar{color:#fff}
+
+/* topo */
+.top{position:sticky;top:0;z-index:30;background:var(--bg);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{font-size:30px;text-decoration:none;line-height:1}
+.cartbtn{position:relative;width:46px;height:46px;border-radius:50%;background:var(--ink);color:var(--bg);border:0;display:grid;place-items:center}
+.cartbtn b{position:absolute;top:-4px;right:-4px;background:var(--rasp);color:#fff;font:600 12px "DM Mono",monospace;min-width:22px;height:22px;border-radius:999px;display:grid;place-items:center;border:2px solid var(--bg);transform:scale(0);transition:transform .25s}
+.cartbtn b.on{transform:scale(1)}
+
+/* herói: listras + cartão festonado */
+.stripes{background:repeating-linear-gradient(90deg,var(--rasp) 0 26px,var(--wine) 26px 52px);padding:22px 0 46px}
+.scal{position:relative;background:var(--bg);border-radius:28px;margin:0 6px}
+.scal::before,.scal::after{content:"";position:absolute;left:8px;right:8px;height:18px;background:radial-gradient(circle at 50% 50%,var(--bg) 17px,transparent 17.5px) 0 0/36px 36px repeat-x}
+.scal::before{top:-17px}.scal::after{bottom:-17px;background-position:0 -18px}
+.scal .sx{position:absolute;top:10px;bottom:10px;width:18px;background:radial-gradient(circle at 50% 50%,var(--bg) 17px,transparent 17.5px) 0 0/36px 36px repeat-y}
+.scal .sx.l{left:-17px}.scal .sx.r{right:-17px;background-position:-18px 0}
+.hero{padding:16px 16px 34px}
+.hero .ph{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/4.3}
+.hero .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.badge{position:absolute;right:10px;top:10px;width:104px;height:104px;border-radius:50%;background:var(--rasp);color:#fff;display:grid;place-items:center}
+.badge svg{position:absolute;inset:0;animation:spin 18s linear infinite}
+.badge span{font-family:"Bagel Fat One";font-size:34px;line-height:1}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ticket{position:absolute;left:10px;bottom:14px;background:#fffdfa;border-radius:6px;padding:10px 14px 12px;transform:rotate(-4deg);box-shadow:0 14px 30px rgba(46,26,22,.22);font-size:12px;width:min(210px,58%);animation:bob 5s ease-in-out infinite}
+.ticket .t{color:var(--soft);letter-spacing:.04em;border-bottom:1px dashed var(--line);padding-bottom:6px;margin-bottom:6px}
+.ticket .n{font-size:13px;color:var(--ink)}
+.ticket .p{display:flex;align-items:baseline;gap:8px;margin-top:4px}
+.ticket .p strong{font:400 22px "Bagel Fat One";white-space:nowrap}
+.ticket .p small{font-size:10px}
+@media(max-width:520px){.ticket{font-size:11px;padding:8px 11px 10px;width:170px}.ticket .n{font-size:12px}}
+.ticket .p small{color:var(--rasp)}
+@keyframes bob{50%{transform:rotate(-2deg) translateY(-6px)}}
+.labels{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:22px 0 12px}
+.labels .pill{margin:0}
+.tag{position:relative;display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--rasp);color:var(--rasp);font-weight:700;font-size:13px;text-transform:uppercase;padding:5px 14px 5px 12px;border-radius:4px;transform:rotate(3deg);background:var(--card)}
+.tag::before{content:"";width:7px;height:7px;border-radius:50%;border:1.5px solid var(--rasp)}
+.hero .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+@media(min-width:880px){
+ .hero{display:grid;grid-template-columns:1.05fr 1fr;gap:36px;align-items:center;padding:26px}
+ .hero .ph{aspect-ratio:4/4.6}.badge{width:128px;height:128px;right:18px;top:18px}
+ .hero .txt{order:-1;padding:10px 0 10px 18px}}
+
+/* faixa bege festonada */
+.band{position:relative;background:var(--beige);padding:34px 0}
+.band::before,.band::after{content:"";position:absolute;left:0;right:0;height:14px;background:radial-gradient(circle at 50% 50%,var(--beige) 13px,transparent 13.5px) 0 0/28px 28px repeat-x}
+.band::before{top:-13px}.band::after{bottom:-13px;background-position:0 -14px}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 16px}
+@media(min-width:880px){.facts{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.fact{display:flex;gap:12px;align-items:center}
+.fact i{flex:none;width:46px;height:46px;border-radius:50%;background:var(--bg);display:grid;place-items:center;color:var(--rasp)}
+.fact strong{display:block;font:400 19px/1.1 "Bagel Fat One"}
+.fact span{font-size:13px;color:var(--soft)}
+
+/* vitrine */
+.sec{padding:clamp(56px,9vw,100px) 0}
+.reveal .w{color:#e3d8cd;transition:color .35s}
+.reveal .w.on{color:var(--ink)}
+.reveal em .w.on{color:var(--rasp)}
+.cats{position:sticky;top:68px;z-index:20;background:var(--bg);margin-top:26px;border-bottom:1px solid var(--line)}
+.cats .row{display:flex;gap:8px;overflow-x:auto;padding:12px 0;scrollbar-width:none}
+.cats .row::-webkit-scrollbar{display:none}
+.chip{flex:none;min-height:42px;padding:0 18px;border-radius:999px;border:1.5px solid var(--ink);background:none;font-weight:700;font-size:13px;text-transform:uppercase}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.shelf{padding-top:34px}
+.shelf h3{font:400 clamp(30px,7vw,44px)/1 "League Gothic";text-transform:uppercase;margin:0 0 4px}
+.shelf>p{margin:0 0 20px;color:var(--soft)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 14px}
+@media(min-width:760px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 24px}}
+.item{display:block;text-align:left;background:none;border:0;padding:0;opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}
+.item.in{opacity:1;transform:none}
+.item .im{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:3/4;background:var(--beige)}
+.item .im img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.item:hover .im img{transform:scale(1.05)}
+.item .cat{position:absolute;left:10px;top:10px;background:#fff;border-radius:999px;padding:4px 10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.item .plus{position:absolute;right:10px;bottom:10px;width:42px;height:42px;border-radius:50%;background:var(--rasp);color:#fff;display:grid;place-items:center;font-size:24px;line-height:1;box-shadow:0 6px 16px rgba(46,26,22,.25)}
+.item .nm{display:flex;flex-direction:column;gap:2px;margin-top:12px}
+.item .nm strong{font:400 clamp(17px,4.2vw,22px)/1.1 "Bagel Fat One"}
+.item .nm .pr{font-family:"DM Mono";font-size:14px}
+.item .nm .pr small{color:var(--soft);font-size:12px}
+.item .tg{display:block;font-family:"DM Mono";font-size:12px;color:var(--soft);margin-top:4px;line-height:1.4}
+@media(min-width:760px){.item .nm{flex-direction:row;justify-content:space-between;align-items:baseline;gap:10px}.item .nm .pr{white-space:nowrap}}
+
+/* livro de bolos: virada de página 3D */
+.bk{position:relative;perspective:2400px;padding-left:14px}
+.bk .sizer{visibility:hidden;pointer-events:none}
+.bk .lay{position:absolute;top:0;bottom:0;left:14px;right:0}
+.spine{position:absolute;left:0;top:0;bottom:0;width:18px;background:var(--wine);border-radius:10px 0 0 10px;z-index:3;box-shadow:inset -3px 0 0 rgba(0,0,0,.18)}
+.spine::after{content:"";position:absolute;left:7px;top:14px;bottom:14px;border-left:2px dashed rgba(255,235,240,.55)}
+.bk::after{content:"";position:absolute;right:-7px;top:10px;bottom:10px;width:7px;border-radius:0 6px 6px 0;background:repeating-linear-gradient(90deg,#fffaf3 0 1px,#e2d5c6 1px 2px);box-shadow:2px 0 0 var(--line)}
+.page{position:relative;background:var(--card);border-radius:0 18px 18px 0;overflow:hidden;display:flex;flex-direction:column;height:100%;box-shadow:0 18px 40px -18px rgba(46,26,22,.35)}
+.page .pg{position:relative;aspect-ratio:4/4.2;overflow:hidden;flex:none}
+.page .pg img{width:100%;height:100%;object-fit:cover}
+.page .tx{padding:20px 20px 22px;display:flex;flex-direction:column;flex:1}
+.page .no{color:var(--rasp);font-size:13px}
+.page h3{font:400 clamp(26px,6vw,34px)/1.05 "Bagel Fat One";margin:6px 0 8px}
+.page .ds{color:var(--soft);margin:0}
+.page dl{margin:16px 0 0;font-family:"DM Mono";font-size:13px}
+.page dl div{display:flex;justify-content:space-between;gap:12px;border-top:1px dashed var(--line);padding:9px 0}
+.page dl div:last-child{border-bottom:1px dashed var(--line)}
+.page dt{color:var(--soft)}.page dd{margin:0;text-align:right}
+.page .ft{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:auto;padding-top:18px}
+.page .big{font:400 48px/1 "League Gothic"}
+.page .big small{display:block;font:400 12px "DM Mono";color:var(--soft)}
+.page .folio{position:absolute;bottom:10px;right:14px;font:12px "DM Mono";color:#b9a79b}
+.paper{position:absolute;inset:0;background:#f3e8dc;border-radius:18px 0 0 18px;display:grid;place-items:center;text-align:center}
+.paper .wm{font:400 64px/1 "Bagel Fat One";color:#e6d6c4}
+.paper .mono{display:block;margin-top:8px;font-size:12px;color:#b9a79b}
+.leaf{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;z-index:2}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.face.back{transform:rotateY(180deg)}
+.dim{position:absolute;inset:0;background:#2e1a16;opacity:0;pointer-events:none;border-radius:inherit;z-index:5}
+.corner{position:absolute;right:0;bottom:0;width:34px;height:34px;background:linear-gradient(135deg,transparent 50%,#efe3d5 50%);border-top-left-radius:6px;box-shadow:-2px -2px 6px rgba(46,26,22,.12);z-index:4}
+@media(min-width:760px){
+ .bk{padding-left:0}.spine{display:none}
+ .bk .lay{left:0}
+ .bk .sizer{display:grid;grid-template-columns:1fr 1fr}
+ .bk .L,.bk .R{position:absolute;top:0;bottom:0;width:50%}
+ .bk .L{left:0}.bk .R{right:0}
+ .bk .leaf{left:50%;width:50%}
+ .half{position:relative;height:100%;background:var(--card);overflow:hidden}
+ .half.ph{border-radius:18px 0 0 18px}.half.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+ .bk .sizer{min-height:480px}
+ .half.tt{border-radius:0 18px 18px 0;display:flex}.half.tt .tx{flex:1}
+ .half.ph::after{content:"";position:absolute;top:0;bottom:0;right:0;width:2px;background:rgba(46,26,22,.18)}
+ .gutter{position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(46,26,22,.2);z-index:3}
+ .page .pg{aspect-ratio:auto}}
+.ctrl{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:22px}
+.circ{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--ink);background:none;display:grid;place-items:center}
+
+/* como pedir (escuro) */
+.dark{background:var(--dark);color:#f2e6dc}
+.dark .lead{color:#c9b6aa}
+.steps{list-style:none;margin:34px 0 0;padding:0;display:grid;gap:0}
+@media(min-width:760px){.steps{grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}}
+.steps li{border-top:1px solid #3a2722;padding:18px 0 22px}
+.steps .k{font-family:"DM Mono";font-size:13px;color:#e58ca0}
+.steps strong{display:block;font:400 21px/1.15 "Bagel Fat One";margin:6px 0 6px}
+.steps p{margin:0;color:#c9b6aa;font-size:15px}
+
+/* galeria correndo */
+.marq{overflow:hidden;margin-top:30px}
+.marq .tr{display:flex;gap:14px;width:max-content;animation:run 45s linear infinite}
+.marq:hover .tr{animation-play-state:paused}
+.marq figure{margin:0;width:clamp(200px,42vw,300px)}
+.marq img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:18px}
+.marq figcaption{margin-top:8px;font-family:"DM Mono";font-size:12px;color:var(--soft)}
+.marq figcaption b{display:block;font:400 16px "Bagel Fat One";color:var(--ink)}
+@keyframes run{to{transform:translateX(-50%)}}
+
+/* chamada final */
+.cta{text-align:left}
+.cta .scal{padding:38px 22px 40px}
+.cta .h{font-size:clamp(44px,10vw,84px)}
+
+/* rodapé */
+footer{background:var(--dark);color:#f2e6dc;padding:54px 0 120px}
+.fcols{display:grid;gap:26px}
+@media(min-width:760px){.fcols{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.fcols h4{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:#b9a79b}
+.fcols p,.fcols a{margin:0 0 6px;display:block;text-decoration:none}
+.word{font:400 clamp(88px,26vw,260px)/.9 "Bagel Fat One";color:#9a2e46;margin:46px 0 22px;letter-spacing:-.02em}
+.legal{border-top:1px solid #3a2722;padding-top:16px;font-size:13px;color:#b9a79b;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
+
+/* comanda (gaveta) */
+.scrim{position:fixed;inset:0;background:rgba(31,19,16,.55);z-index:40;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;z-index:50;left:0;right:0;bottom:0;max-height:92vh;overflow:auto;background:var(--bg);border-radius:24px 24px 0 0;transform:translateY(105%);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.sheet.on{transform:none}
+@media(min-width:760px){.sheet{left:auto;top:0;width:460px;max-height:none;border-radius:0;transform:translateX(105%)}.sheet.on{transform:none}}
+.sheet .hd{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;position:sticky;top:0;background:var(--bg);z-index:2;border-bottom:1px solid var(--line)}
+.sheet .hd h2{font:400 30px "League Gothic";text-transform:uppercase;margin:0}
+.x{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--ink);background:none;font-size:18px}
+.sheet .bd{padding:18px}
+.rcpt{background:#fffdfa;border-radius:8px;padding:16px;box-shadow:0 10px 26px rgba(46,26,22,.12)}
+.rcpt .t{font-family:"DM Mono";font-size:12px;color:var(--soft);letter-spacing:.04em;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.rcpt .r{display:grid;grid-template-columns:88px 1fr;gap:10px;align-items:start;border-bottom:1px dashed var(--line);padding:12px 0}
+.rcpt .r>span{font-family:"DM Mono";font-size:13px;color:var(--soft);padding-top:10px}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{min-height:40px;padding:0 12px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);font:500 13px "DM Mono"}
+.opt[aria-pressed=true]{border-color:var(--rasp);background:var(--rasp);color:#fff}
+.qty{display:inline-flex;align-items:center;border:1.5px solid var(--line);border-radius:999px}
+.qty button{width:42px;height:40px;border:0;background:none;font-size:18px}
+.qty output{min-width:26px;text-align:center;font-family:"DM Mono"}
+textarea{width:100%;min-height:70px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);padding:10px;font-size:16px;resize:vertical}
+.est{display:flex;justify-content:space-between;align-items:flex-end;padding-top:12px}
+.est span{font-family:"DM Mono";font-size:13px;color:var(--soft)}
+.est strong{font:400 44px/1 "League Gothic"}
+.sheet .btn{width:100%;justify-content:center;margin-top:16px}
+.wa{background:#1f6b45!important;border-color:#1f6b45!important}
+.ln{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;border-bottom:1px dashed var(--line);padding:12px 0}
+.ln img{width:56px;height:70px;object-fit:cover;border-radius:8px}
+.ln strong{font:400 15px/1.2 "Bagel Fat One"}
+.ln p{margin:2px 0 0;font:12px/1.4 "DM Mono";color:var(--soft)}
+.ln .v{text-align:right;font-family:"DM Mono";font-size:14px;white-space:nowrap}
+.ln .rm{display:block;margin-left:auto;margin-top:4px;background:none;border:0;color:var(--rasp);font-size:13px;min-height:30px;padding:0;text-decoration:underline}
+.empty{text-align:center;padding:30px 0;color:var(--soft)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,160%);opacity:0;background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:999px;font-weight:600;z-index:60;transition:.3s;white-space:nowrap}
+.toast.on{transform:translate(-50%,0);opacity:1}
+.fab{position:fixed;left:50%;bottom:16px;transform:translate(-50%,150%);z-index:30;box-shadow:0 10px 26px rgba(46,26,22,.3);transition:transform .35s;white-space:nowrap}
+.fab.on{transform:translate(-50%,0)}
+.note{font-size:12px;color:var(--soft);font-family:"DM Mono"}
+@media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}.item{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <a class="logo bag" href="#inicio">deliciê</a>
+  <button class="cartbtn" id="openCart" aria-label="Abrir comanda do pedido">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+    <b id="count">0</b>
+  </button>
+</div></header>
+
+<div class="stripes" id="inicio"><div class="wrap">
+  <div class="scal"><i class="sx l"></i><i class="sx r"></i>
+   <div class="hero">
+    <div class="ph">
+      <img src="img/bolo-flores.jpg" alt="Bolo plissado branco com rosas no topo, da Deliciê Doces">
+      <div class="badge" aria-hidden="true">
+        <svg viewBox="0 0 100 100"><defs><path id="c" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text fill="#fff" font-family="Instrument Sans" font-weight="700" font-size="9.6" letter-spacing="1.6"><textPath href="#c">FEITO À MÃO · DELICIÊ DOCES · </textPath></text></svg>
+        <span>d</span>
+      </div>
+      <div class="ticket mono" aria-hidden="true">
+        <div class="t">SEU BOLO · Nº 0418</div>
+        <div class="n">Bolo plissado com flores</div>
+        <div>2 kg · festa</div>
+        <div class="p"><strong>R$ 210</strong><small>sob encomenda</small></div>
+      </div>
+    </div>
+    <div class="txt">
+      <div class="labels"><span class="pill">Confeitaria artesanal</span><span class="tag">Capim Grosso · desde 2018</span></div>
+      <h1 class="h">Bolos para os dias que você vai <em>lembrar.</em></h1>
+      <p class="lead">Feitos à mão pela Luciana Araújo. Escolha o bolo, o tamanho e o sabor, veja o valor e mande o pedido direto no WhatsApp.</p>
+      <div class="btns"><a class="btn fill" href="#vitrine">Ver a vitrine <span class="ar">→</span></a><a class="btn" href="#como">Como pedir <span class="ar">→</span></a></div>
+    </div>
+   </div>
+  </div>
+</div></div>
+
+<section class="band"><div class="wrap facts">
+  <div class="fact"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20h16M5 20v-7h14v7M8 13V9h8v4M12 9V6"/></svg></i><div><strong>R$ 127</strong><span>bolo de 1,5 kg</span></div></div>
+  <div class="fact"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></i><div><strong>Sob encomenda</strong><span>combine a data</span></div></div>
+  <div class="fact"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 19l1.3-3.8A8 8 0 1 1 9 18.6L5 19z"/></svg></i><div><strong>WhatsApp</strong><span>pedido em 1 toque</span></div></div>
+  <div class="fact"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></i><div><strong>Capim Grosso</strong><span>Vicente Ferreira</span></div></div>
+</div></section>
+
+<section class="sec" id="vitrine">
+  <div class="wrap">
+    <span class="pill">A vitrine</span>
+    <h2 class="h reveal" id="rv1">Os bolos que o pessoal <em>sempre volta</em> para pedir.</h2>
+    <p class="lead">Tudo feito por encomenda: escolha o tamanho, o sabor e conte o tema nas observações.</p>
+  </div>
+  <nav class="cats" aria-label="Categorias"><div class="wrap"><div class="row" id="cats"></div></div></nav>
+  <div class="wrap" id="shelves"></div>
+</section>
+
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <span class="pill">O livro de bolos</span>
+    <h2 class="h reveal" id="rv2">Folheie o <em>caderno.</em></h2>
+    <p class="lead">Um bolo por página. Passe as folhas ou deixe virar sozinho.</p>
+    <div style="margin-top:28px">
+      <div class="bk" id="book" aria-live="polite"><div class="spine"></div><div class="sizer" id="bkSizer" aria-hidden="true"></div><div class="lay" id="bkLay"></div></div>
+      <div class="ctrl"><button class="circ" id="bkPrev" aria-label="Anterior">‹</button><span class="mono" id="bkCount"></span><button class="circ" id="bkPlay" aria-label="Pausar">❚❚</button><button class="circ" id="bkNext" aria-label="Próximo">›</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec dark" id="como"><div class="wrap">
+  <span class="pill">Como pedir</span>
+  <h2 class="h" style="color:#f2e6dc">Da vitrine para a <em>mesa da festa.</em></h2>
+  <p class="lead">Quatro passos, sem cadastro e sem complicação.</p>
+  <ol class="steps">
+    <li><span class="k">01</span><strong>Escolha o bolo</strong><p>Toque no produto, defina tamanho, sabor e quantidade.</p></li>
+    <li><span class="k">02</span><strong>Conte os detalhes</strong><p>Tema, nome no topo e data da festa vão nas observações.</p></li>
+    <li><span class="k">03</span><strong>Envie no WhatsApp</strong><p>A comanda chega pronta, com itens e total estimado.</p></li>
+    <li><span class="k">04</span><strong>Luciana confirma</strong><p>Ela fecha o valor final, a data e a forma de entrega com você.</p></li>
+  </ol>
+</div></section>
+
+<section class="sec" style="padding-bottom:40px">
+  <div class="wrap">
+    <span class="pill">Saídos da cozinha</span>
+    <h2 class="h reveal" id="rv3">Bolos recentes, <em>direto da caixa.</em></h2>
+    <a class="btn" style="margin-top:20px" href="https://www.instagram.com/deliciedoces_lu/">Ver no Instagram <span class="ar">↗</span></a>
+  </div>
+  <div class="marq"><div class="tr" id="marq"></div></div>
+</section>
+
+<section class="stripes cta"><div class="wrap">
+  <div class="scal"><i class="sx l"></i><i class="sx r"></i>
+    <span class="pill">Faça seu pedido</span>
+    <h2 class="h">Conte a data. <em>A Luciana faz o bolo.</em></h2>
+    <p class="lead">Também sob encomenda: sequilhos, amanteigados, cestas de presente e cursos de confeitaria.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:22px"><a class="btn fill" href="#vitrine">Montar meu pedido <span class="ar">→</span></a><a class="btn" id="waDirect" href="#">Falar no WhatsApp <span class="ar">↗</span></a></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="fcols">
+    <div><h4>Deliciê Doces</h4><p>Confeitaria artesanal da Luciana Araújo. Bolos caseiros e temáticos, doces e salgados.</p></div>
+    <div><h4>Visite</h4><p>Av. Airton Senna, Vicente Ferreira</p><p>Capim Grosso – BA</p></div>
+    <div><h4>Pedidos</h4><p>WhatsApp (74) 99124-0693</p><a href="https://www.instagram.com/deliciedoces_lu/">@deliciedoces_lu</a></div>
+  </div>
+  <div class="word" aria-hidden="true">deliciê</div>
+  <div class="legal"><span>© 2026 Deliciê Doces</span><span>Amostra AM Tecnologia · preços ilustrativos</span></div>
+</div></footer>
+
+<button class="btn fill fab" id="fab">Ver comanda · <span id="fabTot"></span></button>
+<div class="scrim" id="scrim"></div>
+<aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="shTitle">
+  <div class="hd"><h2 id="shTitle"></h2><button class="x" id="close" aria-label="Fechar">✕</button></div>
+  <div class="bd" id="shBody"></div>
+</aside>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+{
+const WA='5574991240693';
+const CATS=[
+ {id:'decorados',nome:'Bolos decorados',sub:'Massa fofinha, recheio à escolha e acabamento feito à mão.'},
+ {id:'sabor',nome:'Bolos de sabor',sub:'Para quem vai direto ao recheio.'},
+ {id:'salgados',nome:'Salgados',sub:'Para a mesa da festa ou o café da tarde.'},
+ {id:'licores',nome:'Licores',sub:'Artesanais, em garrafa, para presentear.'}];
+const KG=[['1,5 kg',1.5],['2 kg',2],['3 kg',3],['4 kg',4]];
+const P=[
+ {id:'flores',c:'decorados',n:'Bolo Plissado com Flores',d:'Saia plissada branca e buquê de rosas no topo.',t:'Plissado · Rosas · Branco',img:'bolo-flores',kg:105},
+ {id:'tres-tons',c:'decorados',n:'Bolo Três Tons Rosé',d:'Faixas em rosa e branco, filete dourado e pérolas.',t:'Rosé · Pérolas · Dourado',img:'bolo-tres-tons',kg:95},
+ {id:'pinceladas',c:'decorados',n:'Bolo Pinceladas Lilás',d:'Espatulado branco com pinceladas lilás e dourado.',t:'Lilás · Espatulado · Dourado',img:'bolo-pinceladas',kg:95},
+ {id:'chantininho',c:'decorados',n:'Bolo Chantininho Floral',d:'Babados de chantininho e mosquitinhos pink.',t:'Chantininho · Floral',img:'bolo-chantininho',kg:95},
+ {id:'borboletas',c:'decorados',n:'Bolo Borboletas Azuis',d:'Ondas em azul e branco com borboletas e pérolas.',t:'Azul · Borboletas · Pérolas',img:'bolo-borboletas',kg:100},
+ {id:'coracao',c:'decorados',n:'Bolo Coração Vintage',d:'Formato de coração, bicos vermelhos e pérolas douradas.',t:'Coração · Vermelho · Vintage',img:'bolo-coracao',kg:110},
+ {id:'jardim',c:'decorados',n:'Bolo Jardim',d:'Frisos clássicos, rosas de chantininho e pérolas.',t:'Frisado · Rosas · Pérolas',img:'bolo-jardim',kg:90},
+ {id:'azul',c:'decorados',n:'Bolo Listrado Azul',d:'Frisado em branco e azul com bolinhas metalizadas.',t:'Frisado · Azul · Metalizado',img:'bolo-degrade-azul',kg:90},
+ {id:'laranja',c:'decorados',n:'Bolo Floral Laranja',d:'Coroa de flores de chantininho e rosas de papel.',t:'Floral · Laranja · Dourado',img:'bolo-floral-laranja',kg:95},
+ {id:'drip',c:'decorados',n:'Bolo Drip de Chocolate',d:'Calda escorrida, brigadeiros e chantilly.',t:'Drip · Chocolate · Brigadeiro',img:'bolo-drip',kg:100},
+ {id:'redvelvet',c:'sabor',n:'Red Velvet com Morangos',d:'Massa vermelha, creme branco e morangos frescos.',t:'Red velvet · Morango · Creme',img:'red-velvet',kg:90},
+ {id:'abacaxi',c:'sabor',n:'Bolo Abacaxi com Coco',d:'Doce de abacaxi no topo e bombons de coco.',t:'Abacaxi · Coco · Chantilly',img:'bolo-abacaxi-coco',kg:85},
+ {id:'paodelicia',c:'salgados',n:'Pão Delícia',d:'Macio, com queijo ralado e pimenta biquinho.',t:'Bandeja com 20 unidades',img:'pao-delicia',un:38,unl:'bandeja c/ 20'},
+ {id:'torta',c:'salgados',n:'Torta Salgada da Casa',d:'Carne desfiada, creme de queijo e banana-da-terra.',t:'Torta inteira',img:'torta-salgada',un:75,unl:'torta inteira'},
+ {id:'licor',c:'licores',n:'Licor Artesanal',d:'Garrafa com rótulo da casa. Escolha o sabor.',t:'7 sabores · garrafa',img:'licor',un:32,unl:'garrafa',sab:['Cappuccino','Chocolate','Amendoim','Morango','Coco','Maracujá','Jenipapo']}];
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const brl=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const brl0=v=>'R$ '+Math.round(v).toLocaleString('pt-BR');
+const from=p=>p.kg?p.kg*1.5:p.un;
+const catName=id=>CATS.find(c=>c.id==id).nome.replace('Bolos ','');
+let cart=[];try{cart=JSON.parse(localStorage.getItem('dd-cart2')||'[]')}catch(e){}
+
+/* vitrine */
+$('#cats').innerHTML=CATS.map((c,i)=>`<button class="chip" data-c="${c.id}" aria-pressed="${i==0}">${c.nome}</button>`).join('');
+$('#shelves').innerHTML=CATS.map(c=>`<div class="shelf" id="${c.id}"><h3>${c.nome}</h3><p>${c.sub}</p><div class="grid">${
+ P.filter(p=>p.c==c.id).map(p=>`<button class="item" data-p="${p.id}" aria-label="${esc(p.n)}, a partir de ${brl(from(p))}">
+  <div class="im"><img src="img/${p.img}.jpg" alt="" loading="lazy"><span class="cat">${catName(p.c)}</span><span class="plus" aria-hidden="true">+</span></div>
+  <div class="nm"><strong>${p.n}</strong><span class="pr"><small>${p.kg?'a partir de ':''}</small>${brl(from(p))}</span></div>
+  <span class="tg">${p.t}</span></button>`).join('')}</div></div>`).join('');
+document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>document.getElementById(b.dataset.c).scrollIntoView({behavior:'smooth'})));
+const catIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)document.querySelectorAll('.chip').forEach(c=>{const on=c.dataset.c==e.target.id;c.setAttribute('aria-pressed',on);if(on)c.scrollIntoView({inline:'nearest',block:'nearest'})})}),{rootMargin:'-40% 0px -55% 0px'});
+document.querySelectorAll('.shelf').forEach(s=>catIO.observe(s));
+const inIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');inIO.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.item').forEach((el,i)=>{el.style.transitionDelay=(i%2)*90+'ms';inIO.observe(el)});
+
+/* títulos que se preenchem com a rolagem */
+document.querySelectorAll('.reveal').forEach(h=>{
+ h.querySelectorAll('em').forEach(()=>{});
+ const walk=n=>{[...n.childNodes].forEach(c=>{if(c.nodeType==3){const f=document.createDocumentFragment();c.textContent.split(/(\s+)/).forEach(w=>{if(!w)return;if(/^\s+$/.test(w))f.append(w);else{const s=document.createElement('span');s.className='w';s.textContent=w;f.append(s)}});c.replaceWith(f)}else walk(c)})};
+ walk(h);
+});
+const fill=()=>{document.querySelectorAll('.reveal').forEach(h=>{const r=h.getBoundingClientRect(),vh=innerHeight;const p=Math.min(1,Math.max(0,(vh*.9-r.top)/(vh*.5)));const ws=h.querySelectorAll('.w');const n=Math.round(p*ws.length);ws.forEach((w,i)=>w.classList.toggle('on',i<n))})};
+addEventListener('scroll',fill,{passive:true});addEventListener('resize',fill);fill();
+
+/* livro: virada de página 3D */
+const BK=P.filter(p=>p.kg),N=BK.length;let bi=0,busy=false,playing=!matchMedia('(prefers-reduced-motion:reduce)').matches,timer;
+const RM=matchMedia('(prefers-reduced-motion:reduce)').matches,WIDE=matchMedia('(min-width:760px)');
+const book=$('#book'),lay=$('#bkLay'),sizer=$('#bkSizer');
+const two=n=>String(n).padStart(2,'0');
+const photo=(p,cls='')=>`<div class="half ph ${cls}"><img src="img/${p.img}.jpg" alt="${esc(p.n)}"><div class="dim"></div></div>`;
+const text=i=>{const p=BK[i];return `<div class="tx"><span class="no mono">Nº ${two(i+1)} · ${two(N)}</span><h3>${p.n}</h3><p class="ds">${p.d}</p>
+ <dl><div><dt>Estilo</dt><dd>${p.t}</dd></div><div><dt>Tamanhos</dt><dd>1,5 a 4 kg</dd></div><div><dt>Pedido</dt><dd>sob encomenda</dd></div></dl>
+ <div class="ft"><div class="big"><small>a partir de</small>${brl0(from(p))}</div><button class="btn fill" data-add="${p.id}">Quero esse <span class="ar">→</span></button></div></div>`};
+const page=i=>`<div class="page"><div class="pg"><img src="img/${BK[i].img}.jpg" alt="${esc(BK[i].n)}"></div>${text(i)}<span class="folio">${i+1}</span><div class="corner"></div><div class="dim"></div></div>`;
+const tpage=i=>`<div class="half tt page">${text(i)}<span class="folio" style="position:absolute;bottom:10px;right:14px;font:12px 'DM Mono';color:#b9a79b">${i+1}</span><div class="corner"></div><div class="dim"></div></div>`;
+const paper=i=>`<div class="paper"><div><div class="wm">deliciê</div><span class="mono">página ${two(i+1)}</span></div><div class="dim"></div></div>`;
+function build(under,front,back,left){
+ lay.innerHTML=(WIDE.matches?`<div class="L">${left}</div><div class="R">${under}</div><div class="gutter"></div>`:`<div style="position:absolute;inset:0">${under}</div>`)+
+ `<div class="leaf" id="leaf"><div class="face front">${front}</div><div class="face back">${back}</div></div>`}
+function rest(){
+ sizer.innerHTML=WIDE.matches?`<div>${photo(BK[bi])}</div><div class="page" style="border-radius:0 18px 18px 0">${text(bi)}</div>`:page(bi);
+ if(WIDE.matches)build(tpage(bi),tpage(bi),photo(BK[(bi+1)%N]),photo(BK[bi]));else build('',page(bi),paper(bi),'');
+ $('#bkCount').textContent=`${two(bi+1)} / ${two(N)}`}
+function flip(dir){
+ if(busy)return;busy=true;const j=(bi+dir+N)%N,W=WIDE.matches;
+ if(dir>0){W?build(tpage(j),tpage(bi),photo(BK[j]),photo(BK[bi])):build(page(j),page(bi),paper(bi),'')}
+ else{W?build(tpage(bi),tpage(j),photo(BK[bi]),photo(BK[j])):build(page(bi),page(j),paper(j),'')}
+ const leaf=$('#leaf'),dur=RM?1:1150,ease='cubic-bezier(.55,.05,.25,1)';
+ const fr=[{transform:'rotateY(0deg)'},{transform:'rotateY(-90deg) scaleX(1.02)',offset:.5},{transform:'rotateY(-180deg)'}];
+ const a=leaf.animate(dir>0?fr:[...fr].reverse(),{duration:dur,easing:ease,fill:'forwards'});
+ const dims=(sel,k)=>{const d=lay.querySelector(sel);if(d)d.animate(k,{duration:dur,easing:ease,fill:'forwards'})};
+ const show=[{opacity:.45},{opacity:0}],hide=[{opacity:0},{opacity:.4}];
+ if(dir>0){dims('.leaf .front .dim',[{opacity:0},{opacity:.35,offset:.5},{opacity:.35}]);dims('.leaf .back .dim',[{opacity:.35},{opacity:.35,offset:.5},{opacity:0}]);dims(W?'.R .dim':'.lay>div:first-child .dim',show)}
+ else{dims('.leaf .front .dim',[{opacity:.35},{opacity:.35,offset:.5},{opacity:0}]);dims('.leaf .back .dim',[{opacity:0},{opacity:.35,offset:.5},{opacity:.35}]);dims(W?'.R .dim':'.lay>div:first-child .dim',hide);if(W)dims('.L .dim',show)}
+ a.onfinish=()=>{bi=j;rest();busy=false}}
+const arm=()=>{clearInterval(timer);if(playing)timer=setInterval(()=>flip(1),5000);$('#bkPlay').textContent=playing?'❚❚':'▶';$('#bkPlay').setAttribute('aria-label',playing?'Pausar':'Tocar')};
+$('#bkPrev').onclick=()=>{flip(-1);arm()};$('#bkNext').onclick=()=>{flip(1);arm()};$('#bkPlay').onclick=()=>{playing=!playing;arm()};
+book.addEventListener('click',e=>{const b=e.target.closest('[data-add]');if(b){playing=false;arm();showItem(b.dataset.add)}});
+let sx=0,sy=0;book.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+book.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)){flip(dx<0?1:-1);arm()}});
+WIDE.addEventListener('change',()=>{if(!busy)rest()});
+const bkIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&playing)arm();else if(!e.isIntersecting)clearInterval(timer)}));bkIO.observe(book);
+BK.forEach(p=>{const im=new Image();im.src='img/'+p.img+'.jpg'});
+rest();
+/* galeria correndo */
+const G=P.slice(0,12);const fig=G.map(p=>`<figure><img src="img/${p.img}.jpg" alt="${esc(p.n)}" loading="lazy"><figcaption><b>${p.n}</b>${p.t}</figcaption></figure>`).join('');
+$('#marq').innerHTML=fig+fig.replace(/alt="[^"]*"/g,'alt="" aria-hidden="true"');
+
+$('#waDirect').href=`https://wa.me/${WA}?text=${encodeURIComponent('Olá, Luciana! Vim pelo catálogo e quero fazer uma encomenda.')}`;
+
+/* gaveta */
+const sheet=$('#sheet'),scrim=$('#scrim');
+const open=(t,html)=>{$('#shTitle').textContent=t;$('#shBody').innerHTML=html;sheet.classList.add('on');scrim.classList.add('on');document.body.style.overflow='hidden';setTimeout(()=>$('#close').focus(),60)};
+const close=()=>{sheet.classList.remove('on');scrim.classList.remove('on');document.body.style.overflow=''};
+$('#close').onclick=close;scrim.onclick=close;addEventListener('keydown',e=>{if(e.key=='Escape')close()});
+
+let cur=null,ticket=418;
+const now=()=>(cur.p.kg?cur.p.kg*cur.size[1]:cur.p.un)*cur.q;
+function showItem(id){
+ const p=P.find(x=>x.id==id);cur={p,size:KG[0],sab:p.sab?p.sab[0]:null,q:1};
+ open(p.n,`<img src="img/${p.img}.jpg" alt="${esc(p.n)}" style="width:100%;aspect-ratio:4/3.4;object-fit:cover;border-radius:18px;margin-bottom:14px">
+ <div class="rcpt"><div class="t">SEU PEDIDO · Nº ${String(ticket).padStart(4,'0')}</div>
+ <p style="margin:10px 0 0;color:var(--soft)">${p.d}</p>
+ ${p.kg?`<div class="r"><span>Tamanho</span><div class="opts" id="oSize">${KG.map((k,i)=>`<button class="opt" data-i="${i}" aria-pressed="${i==0}">${k[0]}</button>`).join('')}</div></div>`:`<div class="r"><span>Formato</span><div class="mono" style="padding-top:10px;font-size:14px">${p.unl}</div></div>`}
+ ${p.sab?`<div class="r"><span>Sabor</span><div class="opts" id="oSab">${p.sab.map((s,i)=>`<button class="opt" data-i="${i}" aria-pressed="${i==0}">${s}</button>`).join('')}</div></div>`:''}
+ <div class="r"><span>Qtd.</span><div><div class="qty"><button id="qm" aria-label="Menos">−</button><output id="qv">1</output><button id="qp" aria-label="Mais">+</button></div></div></div>
+ <div class="r" style="grid-template-columns:1fr"><label for="obs" class="mono" style="font-size:13px;color:var(--soft)">Observações</label><textarea id="obs" placeholder="Tema, nome no topo, recheio, data da festa"></textarea></div>
+ <div class="est"><span>Estimativa${p.kg?`<br>${brl(p.kg)} o kg`:''}</span><strong id="est"></strong></div></div>
+ <button class="btn fill" id="addBtn">Colocar no pedido <span class="ar">→</span></button>`);
+ const upd=()=>{$('#qv').textContent=cur.q;$('#est').textContent=brl(now())};upd();
+ const pick=(sel,fn)=>{const g=$(sel);if(!g)return;g.addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;g.querySelectorAll('.opt').forEach(o=>o.setAttribute('aria-pressed',o==b));fn(+b.dataset.i);upd()})};
+ pick('#oSize',i=>cur.size=KG[i]);pick('#oSab',i=>cur.sab=p.sab[i]);
+ $('#qm').onclick=()=>{if(cur.q>1)cur.q--;upd()};$('#qp').onclick=()=>{cur.q++;upd()};
+ $('#addBtn').onclick=()=>{cart.push({id:p.id,size:p.kg?cur.size[0]:p.unl,sab:cur.sab,q:cur.q,obs:$('#obs').value.trim(),v:now()});save();close();toast('Adicionado à comanda')};
+}
+$('#shelves').addEventListener('click',e=>{const b=e.target.closest('.item');if(b)showItem(b.dataset.p)});
+
+const total=()=>cart.reduce((s,x)=>s+x.v,0);
+function save(){try{localStorage.setItem('dd-cart2',JSON.stringify(cart))}catch(e){}const n=cart.reduce((s,x)=>s+x.q,0);const c=$('#count');c.textContent=n;c.classList.toggle('on',n>0);$('#fab').classList.toggle('on',n>0);$('#fabTot').textContent=brl(total())}
+const waText=()=>'Olá, Luciana! Quero fazer um pedido pelo catálogo:\n\n'+cart.map(x=>{const p=P.find(y=>y.id==x.id);return `• ${x.q}x ${p.n} (${x.size}${x.sab?', '+x.sab:''}) – ${brl(x.v)}${x.obs?'\n   Obs.: '+x.obs:''}`}).join('\n')+`\n\nTotal estimado: ${brl(total())}`;
+function showCart(){
+ if(!cart.length){open('Sua comanda','<div class="empty"><p>Nenhum doce na comanda ainda.</p><a class="btn fill" id="goShop" href="#vitrine">Ver a vitrine <span class="ar">→</span></a></div>');$('#goShop').onclick=close;return}
+ open('Sua comanda',`<div class="rcpt"><div class="t">COMANDA · Nº ${String(ticket).padStart(4,'0')}</div>`+cart.map((x,i)=>{const p=P.find(y=>y.id==x.id);return `<div class="ln"><img src="img/${p.img}.jpg" alt=""><div><strong>${x.q}x ${p.n}</strong><p>${esc(x.size)}${x.sab?' · '+esc(x.sab):''}</p>${x.obs?`<p>${esc(x.obs)}</p>`:''}</div><div class="v">${brl(x.v)}<button class="rm" data-i="${i}">remover</button></div></div>`}).join('')+
+ `<div class="est"><span>Total estimado</span><strong>${brl(total())}</strong></div></div>
+ <p class="note" style="margin-top:12px">A Luciana confirma valores, data e entrega pelo WhatsApp.</p>
+ <a class="btn fill wa" href="https://wa.me/${WA}?text=${encodeURIComponent(waText())}">Finalizar no WhatsApp <span class="ar">↗</span></a>`);
+ $('#shBody').querySelectorAll('.rm').forEach(b=>b.onclick=()=>{cart.splice(+b.dataset.i,1);save();showCart()});
+}
+$('#openCart').onclick=showCart;$('#fab').onclick=showCart;
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),1800)}
+save();
+}
+</script>
+</body>
+</html>
